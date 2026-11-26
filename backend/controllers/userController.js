@@ -5,9 +5,7 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const transporter = require("../config/email");
 
-// ===============================
 // USER REGISTRATION
-// ===============================
 
 const registerUser = async (req, res) => {
     try {
@@ -67,10 +65,7 @@ const registerUser = async (req, res) => {
     }
 };
 
-
-// ===============================
 // USER LOGIN
-// ===============================
 
 const loginUser = async (req, res) => {
     try {
@@ -135,9 +130,7 @@ const loginUser = async (req, res) => {
 };
 
 
-// ===============================
 // GET LOGGED-IN USER PROFILE
-// ===============================
 
 const getMe = async (req, res) => {
     try {
@@ -154,10 +147,7 @@ const getMe = async (req, res) => {
     }
 };
 
-
-// ===============================
 // FORGOT PASSWORD
-// ===============================
 
 const forgotPassword = async (req, res) => {
     try {
@@ -263,10 +253,7 @@ const forgotPassword = async (req, res) => {
     }
 };
 
-
-// ===============================
 // RESET PASSWORD
-// ===============================
 
 const resetPassword = async (req, res) => {
     try {
@@ -330,9 +317,7 @@ const resetPassword = async (req, res) => {
 };
 
 
-// ===============================
 // EXPORT CONTROLLERS
-// ===============================
 
 module.exports = {
     registerUser,

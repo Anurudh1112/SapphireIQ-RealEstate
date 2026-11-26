@@ -1,27 +1,64 @@
-
 const dns = require("dns");
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
+const { rateLimit } = require("express-rate-limit");
+
 require("dotenv").config();
 
 const connectDB = require("./config/db");
+
 const userRoutes = require("./routes/userRoutes");
+const propertyRoutes = require("./routes/propertyRoutes");
+const appointmentRoutes = require("./routes/appointmentRoutes");
 
 const app = express();
 
-// Middleware
-app.use(cors());
+// Security middleware
+app.use(helmet());
+
+// CORS configuration
+const allowedOrigins = [
+    "http://localhost:5173"
+];
+
+app.use(cors({
+    origin: function (origin, callback) {
+        if (!origin || allowedOrigins.includes(origin)) {
+            return callback(null, true);
+        }
+
+        return callback(new Error("Not allowed by CORS"));
+    }
+}));
+
 app.use(express.json());
 
-// User routes
+// Rate limiter configuration
+const apiLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    limit: 100,
+    standardHeaders: "draft-8",
+    legacyHeaders: false,
+    message: {
+        message: "Too many requests. Please try again after 15 minutes."
+    }
+});
+
+// Apply rate limiter to all API routes
+app.use("/api", apiLimiter);
+
+// API routes
 app.use("/api/users", userRoutes);
+app.use("/api/properties", propertyRoutes);
+app.use("/api/appointments", appointmentRoutes);
 
 // Test route
 app.get("/", (req, res) => {
-    res.send("SapphireIQ RealEstate API is running!");
+    res.send("RealEstate API is running!");
 });
 
 // Server port
