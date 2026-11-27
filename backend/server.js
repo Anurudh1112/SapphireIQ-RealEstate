@@ -1,3 +1,4 @@
+
 const dns = require("dns");
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
@@ -22,7 +23,8 @@ app.use(helmet());
 
 // CORS configuration
 const allowedOrigins = [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://frontend-zy43.vercel.app"
 ];
 
 app.use(cors({
@@ -32,7 +34,8 @@ app.use(cors({
         }
 
         return callback(new Error("Not allowed by CORS"));
-    }
+    },
+    credentials: true
 }));
 
 app.use(express.json());
